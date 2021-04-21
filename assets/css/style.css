@@ -49,7 +49,6 @@ h2 {
 
 
 
-/* STRUCTURE */
 
 .wrapper {
   display: flex;
@@ -153,10 +152,6 @@ input[type=text]:placeholder,input[type=password]:placeholder {
 }
 
 
-
-/* ANIMATIONS */
-
-/* Simple CSS3 Fade-in-down Animation */
 .fadeInDown {
   -webkit-animation-name: fadeInDown;
   animation-name: fadeInDown;

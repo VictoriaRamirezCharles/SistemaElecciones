@@ -16,7 +16,7 @@
     public function Add($item){
 
         $stmt = $this->context->db->prepare("insert into usuarios (Nombre,Apellido,Email,Nombre_Usuario,Password,Estado,Rol) values(?,?,?,?,?,?,?)");
-        $stmt->bind_param("sssssi", $item->Nombre, $item->Apellido,$item->Email,$item->Nombre_Usuario,$item->Password,$item->Estado);
+        $stmt->bind_param("sssssii", $item->Nombre, $item->Apellido,$item->Email,$item->Nombre_Usuario,$item->Password,$item->Estado,$item->Rol);
         $stmt->execute();
         $stmt->close();
 
@@ -25,7 +25,7 @@
     public function Edit($item){      
 
         $stmt = $this->context->db->prepare("update usuarios set Nombre = ?,Apellido = ?,Email = ?,Nombre_Usuario = ?,Password = ?, Estado = ?, Rol = ? where Id = ?");
-        $stmt->bind_param("sssssiii", $item->Nombre, $item->Apellido,$item->Email,$item->Nombre_Usuario,$item->Password,$item->Estado,$item->Id,$item->Rol);
+        $stmt->bind_param("sssssiii", $item->Nombre, $item->Apellido,$item->Email,$item->Nombre_Usuario,$item->Password,$item->Estado,$item->Rol,$item->Id);
         $stmt->execute();
         $stmt->close();           
     }
@@ -39,7 +39,7 @@
 
     public function GetById($id){
 
-        $hero = null;
+        $usuario = null;
 
         $stmt = $this->context->db->prepare("select * from usuarios where Id = ?");
         $stmt->bind_param("i", $id);

@@ -20,7 +20,7 @@ if(isset($_POST["Nombre_Usuario"]) && isset($_POST["Password"]))
         {
             if($user->Rol === 1)
             {
-                header("Location: ../index.php");
+                header("Location: ../administrador.php");
                 exit();
             }
         }
@@ -29,8 +29,7 @@ if(isset($_POST["Nombre_Usuario"]) && isset($_POST["Password"]))
     else 
     {
 
-    }
-    
+    } 
   
 }
 
@@ -43,7 +42,7 @@ if(isset($_POST["Nombre_Usuario"]) && isset($_POST["Password"]))
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrador</title>
+    <title>Login</title>
 </head>
 
 <body>
@@ -56,7 +55,7 @@ if(isset($_POST["Nombre_Usuario"]) && isset($_POST["Password"]))
     <br>
     <br>
     <br>
-    <form action="administrador.php" method="POST">
+    <form action="login.php" method="POST">
       <input type="text" id="login" class="fadeIn second" name="Nombre_Usuario" placeholder="Usuario Administrador">
       <input type="password" id="password" class="fadeIn third" name="Password" placeholder="Contraseña">
       <br/>
