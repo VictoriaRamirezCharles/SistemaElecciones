@@ -26,6 +26,8 @@ session_start();
 $layout = new AdminLayout(true);
 $service = new ServiceDatabaseCandidato();
 $serviceVotos = new ServiceDatabaseVotos();
+$totalVotos = $serviceVotos->totalVotos($_GET['Id']);
+
 
 if (isset($_GET['Id'])) {
 
@@ -87,12 +89,17 @@ if(isset($_SESSION['adminUser']) && $_SESSION['adminUser']!=null)
                                         <tbody
                                             ><tr>
                                                 <td width="33%"><strong>CANDIDATO</strong></td>
+                                                <td width="33%"><strong>PUESTO</strong></td>
                                                 <td width="33%"><strong>VOTOS</strong></td>
+                                                <td width="33%"><strong>PORCENTAJE</strong></td>
                                        
                                             </tr>
                                             <tr>
                                                 <td valign="middle" style="border-bottom:#ccc 1px solid; padding-bottom: 15px; vertical-align: baseline;"> <?php echo $voto->CandidatoNombre;?></td>
+                                                <td style="border-bottom:#ccc 1px solid;"><?php echo $voto->Puesto;?></td>
                                                 <td style="border-bottom:#ccc 1px solid;"><?php echo $voto->Cantidad;?></td>
+                                                <?php $ct = $serviceVotos->totalCandidatoVoto($voto->IdEleccion,$voto->IdCandidato)?>
+                                                <td style="border-bottom:#ccc 1px solid;"><?php echo (($ct->Cantidad*$totalVotos->Cantidad)/100);?>%</td>
                                               
                                             </tr>                                        
                                         </tbody>

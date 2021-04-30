@@ -29,16 +29,27 @@
         $result = $this->GetResultByUser($item->IdEleccion,$IdUser);
       
 
-        $nom = "";
-        foreach ($result as $key) {
-            $nom.= $key->CandidatoNombre;
-        }
+  
        
         if(in_array('Senador',$valid) && in_array('Presidente',$valid) && in_array('Diputado',$valid) && in_array('Alcalde',$valid) && in_array('Regidor',$valid))
         {
-        $this->emailHandler->SendEmail($email,"Elecciones"," Resumen de proceso de eleccion: <strong>&nbsp;$nom&nbsp;</strong>");
-        }
+            $nom = "";
+            $body = "";
+            $tableName="";
+            $tableBody = "";
+            foreach ($result as $key) {
+                $nom = "<td>".$key->Puesto ."</td>";
+                $body= "<td>".$key->CandidatoNombre."</td>";
+                $tableName.= $nom;
+                $tableBody.= $body;
+            }
+           
+        
+            
+        $this->emailHandler->SendEmail($email,"Elecciones"," Resumen de proceso de eleccion:<br><table><thead><tr><th>{$tableName}</th></tr></thead><tbody><tr>{$tableBody}</tr></tbody></table>");
+       
     }
+}
 
     public function GetById($id){
 
@@ -66,7 +77,7 @@
         $listadoVotos= array();
 
         
-        $stmt = $this->context->db->prepare("select count(*) Cantidad, v.Id, v.IdCandidato, v.IdElector,v.IdEleccion, c.Nombre as CandidatoNombre from votos v inner join candidatos c on v.IdCandidato = c.Id where v.IdEleccion = ? group by IdCandidato ");
+        $stmt = $this->context->db->prepare("select count(*) Cantidad, v.Id, v.IdCandidato, v.IdElector,v.IdEleccion, c.Nombre as CandidatoNombre, p.Nombre as Puesto from votos v inner join candidatos c on v.IdCandidato = c.Id inner join puesto p on c.PuestoId = p.Id where v.IdEleccion = ? group by v.IdCandidato ");
         $stmt->bind_param("i", $id);
 
         $stmt->execute();
@@ -79,7 +90,8 @@
 
             while ($row = $result->fetch_object()) {
 
-                $voto = new Voto($row->Id,$row->IdCandidato,$row->IdElector, $row->Cantidad, $row->CandidatoNombre,$row->IdEleccion);  
+                $voto = new Voto($row->Id,$row->IdCandidato,$row->IdElector, $row->Cantidad, $row->CandidatoNombre,$row->IdEleccion);
+                $voto->Puesto = $row->Puesto;  
                 array_push($listadoVotos, $voto);
             }
         }
@@ -91,7 +103,7 @@
         $listadoVotos= array();
 
         
-        $stmt = $this->context->db->prepare("select count(*) Cantidad, v.Id, v.IdCandidato, v.IdElector,v.IdEleccion, c.Nombre as CandidatoNombre from votos v inner join candidatos c on v.IdCandidato = c.Id where v.IdEleccion = ? and v.IdElector = ? group by IdCandidato ");
+        $stmt = $this->context->db->prepare("select count(*) Cantidad, v.Id, v.IdCandidato, v.IdElector,v.IdEleccion, c.Nombre as CandidatoNombre, p.Nombre as Puesto from votos v inner join candidatos c on v.IdCandidato = c.Id inner join puesto p on c.PuestoId = p.Id  where v.IdEleccion = ? and v.IdElector = ? group by v.IdCandidato ");
         $stmt->bind_param("ii", $id,$user);
 
         $stmt->execute();
@@ -104,13 +116,56 @@
 
             while ($row = $result->fetch_object()) {
 
-                $voto = new Voto($row->Id,$row->IdCandidato,$row->IdElector, $row->Cantidad, $row->CandidatoNombre,$row->IdEleccion);  
+                $voto = new Voto($row->Id,$row->IdCandidato,$row->IdElector, $row->Cantidad, $row->CandidatoNombre,$row->IdEleccion);
+                $voto->Puesto = $row->Puesto;    
                 array_push($listadoVotos, $voto);
             }
         }
 
         return $listadoVotos;
     } 
+
+    public function totalVotos($id){
+
+        $stmt = $this->context->db->prepare("select count(*) Cantidad from votos Id where IdEleccion = ?");
+        $stmt->bind_param("i", $id);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $row =0;
+        if ($result->num_rows === 0) {
+            return null;
+        } else {
+
+          $row = $result->fetch_object();
+        
+            
+        }
+
+        return $row;
+    }
+    
+    public function totalCandidatoVoto($id, $candidato){
+
+        $stmt = $this->context->db->prepare("select count(*) Cantidad from votos Id where IdEleccion = ? and IdCandidato  =?");
+        $stmt->bind_param("ii", $id,$candidato);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $row =0;
+        if ($result->num_rows === 0) {
+            return null;
+        } else {
+
+          $row = $result->fetch_object();
+        
+            
+        }
+
+        return $row;
+    }
     public function validarElectorVotacion($idelector, $ideleccion){
 
         $listado= array();

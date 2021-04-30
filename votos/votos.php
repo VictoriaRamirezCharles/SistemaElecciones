@@ -9,6 +9,7 @@
         public $Cantidad;
         public $CandidatoNombre;
         public $IdEleccion;
+        public $Puesto;
 
         public function __construct($id,$idcandidato,$idelector, $cantidad, $candidatonombre,$ideleccion)
         {

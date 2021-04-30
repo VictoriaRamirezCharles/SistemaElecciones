@@ -25,7 +25,7 @@
     public function Edit($item){      
 
         $stmt = $this->context->db->prepare("update elecciones set Nombre = ?,Fecha = ?, Estado = ? where Id = ?");
-        $stmt->bind_param("sdii", $item->Nombre, $item->Fecha,$item->Estado,$item->Id);
+        $stmt->bind_param("ssii", $item->Nombre, $item->Fecha,$item->Estado,$item->Id);
         $stmt->execute();
         $stmt->close();           
     }

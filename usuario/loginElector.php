@@ -39,17 +39,37 @@ foreach($elecciones as $elect)
         break;
     }
 }
+
 $ciudadano = "";
 $ejercido = false;
 if(isset($_POST["documento"]))
 {
     $ciudadano = $service->LoginElector($_POST["documento"]);
-    $valid = $serviceVotos->validarElectorVotacion($ciudadano->Id,$idEleccion);
-    if(in_array('Senador',$valid) && in_array('Presidente',$valid) && in_array('Diputado',$valid) && in_array('Alcalde',$valid) )
-    {
-      $ejercido =true;
-    }
-    else
+    if($ciudadano!=null){
+      $valid = $serviceVotos->validarElectorVotacion($ciudadano->Id,$idEleccion);
+      if(in_array('Senador',$valid) && in_array('Presidente',$valid) && in_array('Diputado',$valid) && in_array('Alcalde',$valid) )
+      {
+        $ejercido =true;
+      }
+      else
+      {
+        if($ciudadano!= null)
+        {
+            if($ciudadano->Estado === 1)
+            {
+              $_SESSION["IdVotante"] = $ciudadano->Id;
+              $_SESSION['user'] = $ciudadano;
+                    header("Location: ../elector.php");
+                    exit();
+            }
+          
+        }
+        else 
+        {
+    
+        } 
+      }
+    }else
     {
       if($ciudadano!= null)
       {
@@ -65,8 +85,10 @@ if(isset($_POST["documento"]))
       else 
       {
   
-      } 
+      }
+
     }
+  
  
   
 }
