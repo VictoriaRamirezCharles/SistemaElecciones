@@ -45,7 +45,7 @@ if(isset($_POST["documento"]))
 {
     $ciudadano = $service->LoginElector($_POST["documento"]);
     $valid = $serviceVotos->validarElectorVotacion($ciudadano->Id,$idEleccion);
-    if(in_array('Senador',$valid) && in_array('Presidente',$valid) && in_array('Diputado',$valid) && in_array('Alcalde',$valid) && in_array('Regidor',$valid))
+    if(in_array('Senador',$valid) && in_array('Presidente',$valid) && in_array('Diputado',$valid) && in_array('Alcalde',$valid) )
     {
       $ejercido =true;
     }

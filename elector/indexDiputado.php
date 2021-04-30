@@ -73,12 +73,12 @@ if(in_array('Diputado',$valid))
         <h3 class="text-center">No hay Candidatos registrados</h3>
 
       <?php else: ?>
-        <h1 class="page-title"><p align="center" style="margin-bottom:0px;">Sistema de voto automatizado </p>
+        <h1 class="page-title"><p align="center" style="margin-bottom:0px;font-size:31px">Sistema de voto automatizado </p>
         <!-- <span style="font-size: 20px;"><p align="center" style="margin-top:0px;">Elecciones del 30 Abril 2021</p></span></h1> -->
         <br>
         <div id="recommended-stories">
           <div style="height: 60px; background-color:#072F5F;  padding-top: 10px; border-bottom:#ccc 1px solid;">
-            <center><span style="font-zize:10px; color:#fff;"><h4>LISTADO DE CANDIDATOS(AS) </h4></span></center>          
+            <center><span style="font-zize:10px; color:#fff;"><h4 style="color:#fff">LISTADO DE CANDIDATOS(AS) </h4></span></center>          
           </div> 
         </div>
         </br>

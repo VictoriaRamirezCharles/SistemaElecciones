@@ -32,7 +32,7 @@ if (isset($_GET['Id'])) {
     $ciudadano = $serviceCiudadano->GetById($_SESSION["IdVotante"]);
     $voto = new Voto(0,$IdCandidato, $_SESSION["IdVotante"], 0, "",$Ide);
         
-    $service->Add($voto,$ciudadano->Email);
+    $service->Add($voto,$ciudadano->Email,$ciudadano->Id);
 
     header("Location: ../elector.php");
     exit();

@@ -34,7 +34,7 @@ if(isset($_GET['Id'])){
 ?>
 <?php $layout->printHeader2(); ?>
 
-<h1 class="page-title"><p align="center" style="margin-bottom:0px;">Sistema de voto automatizado </p>
+<h1 class="page-title"><p align="center" style="margin-bottom:0px;font-size:31px">Sistema de voto automatizado </p>
 <span style="font-size: 20px;"><p align="center" style="margin-top:0px;"></p></span></h1>
 <div id="recommended-stories">
   <div class="row">

@@ -85,7 +85,7 @@ foreach($elecciones as $elect)
                  <?php endif; ?>
                   <div class="card-body">
                   <?php if($state==0):?>
-                    <a href="edit.php?Id=<?php echo $partido->Id?>" class="btn btn-primary btn-sm"></i> Editar</a>
+                    <a href="edit.php?Id=<?php echo $partido->Id?>" class="btn btn-success btn-sm"></i> Editar</a>
 
                     <a class="btn btn-danger btn-sm text-light btn-delete" data-name="partido" data-id="<?= $partido->Id ?>"></i> Eliminar</a>
                     <?php endif; ?>

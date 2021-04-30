@@ -89,8 +89,11 @@ foreach($elecciones as $elect)
                  <?php endif; ?>
                   <div class="card-body">
                   <?php if($state==0):?>
-                    <a href="edit.php?Id=<?php echo $candidato->Id?>" class="btn btn-primary btn-sm"></i> Editar</a>
+                    <a href="edit.php?Id=<?php echo $candidato->Id?>" class="btn btn-success btn-sm"></i> Editar</a>
                     <a class="btn btn-danger btn-sm text-light btn-delete" data-name="candidato" data-id="<?= $candidato->Id ?>"></i> Eliminar</a>
+                    <div class="card-body">
+
+                    </div>
                     <?php endif; ?>
                   </div>
 

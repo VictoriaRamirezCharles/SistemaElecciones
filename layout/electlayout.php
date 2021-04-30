@@ -120,7 +120,13 @@ public function printHeader2 ()
     <link href="{$this->directory}assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{$this->directory}assets/css/soft-ui-dashboard.css?v=1.0.1" rel="stylesheet" />
-  </head>
+  <style>
+  .navbar-vertical .navbar-nav>.nav-item .nav-link.active .icon {
+    background-image: linear-gradient(
+    310deg, #167a63 0%, #167a63 100%);
+    }
+  </style>
+    </head>
   
   <body class="g-sidenav-show  bg-gray-100">
     <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-left ms-3" id="sidenav-main">
@@ -179,7 +185,20 @@ public function printHeader2 ()
            
           </li>
    
-     
+          <li class="nav-item mt-3">
+           
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active "  href="{$this->directory}elector/indexRegidores.php">
+              <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+          
+              </div>
+              <span class="nav-link-text ms-1">Regidores</span>
+            </a>
+          </li>
+          <li class="nav-item mt-3">
+           
+          </li>
           
         </ul>
       </div>

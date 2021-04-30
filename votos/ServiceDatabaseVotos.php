@@ -18,21 +18,26 @@
         
     }
 
-    public function Add($item,$email){
+    public function Add($item,$email,$IdUser){
 
         $stmt = $this->context->db->prepare("insert into votos (IdCandidato,IdElector, IdEleccion) values(?,?,?)");
         $stmt->bind_param("iii", $item->IdCandidato, $item->IdElector,$item->IdEleccion);
         $stmt->execute();
         $stmt->close();
 
-        $valid = $this->validarElectorVotacion($item->IdElector,$item->IdEleccion);
-        $result = $this->GetResultByUser($item->IdEleccion,$item->IdElector);
+        $valid = $this->validarElectorVotacion($IdUser,$item->IdEleccion);
+        $result = $this->GetResultByUser($item->IdEleccion,$IdUser);
       
 
-        // if(in_array('Senador',$valid) && in_array('Presidente',$valid) && in_array('Diputado',$valid) && in_array('Alcalde',$valid) && in_array('Regidor',$valid))
-        // {
-        $this->emailHandler->SendEmail($email,"Elecciones"," Resumen de proceso de eleccion: <strong> $result->Cantidad</strong>");
-        // }
+        $nom = "";
+        foreach ($result as $key) {
+            $nom.= $key->CandidatoNombre;
+        }
+       
+        if(in_array('Senador',$valid) && in_array('Presidente',$valid) && in_array('Diputado',$valid) && in_array('Alcalde',$valid) && in_array('Regidor',$valid))
+        {
+        $this->emailHandler->SendEmail($email,"Elecciones"," Resumen de proceso de eleccion: <strong>&nbsp;$nom&nbsp;</strong>");
+        }
     }
 
     public function GetById($id){

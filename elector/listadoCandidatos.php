@@ -62,7 +62,7 @@ if(isset($_GET['Id'])){
 
       <?php else: ?>
 
-        <h1 class="page-title"><p align="center" style="margin-bottom:0px;">Sistema de voto automatizado </p>
+        <h1 class="page-title"><p align="center" style="margin-bottom:0px;font-size:31px">Sistema de voto automatizado </p>
             <span style="font-size: 20px;"><p align="center" style="margin-top:0px;">Elecciones del 30 Abril 2021</p></span></h1>
 
             <div class="profile-tabs">
