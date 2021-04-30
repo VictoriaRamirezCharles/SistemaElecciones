@@ -12,13 +12,16 @@ require_once '../puesto_electivo/puesto_electivo.php';
 require_once '../puesto_electivo/ServiceDatabasePuesto.php';
 require_once '../partidos/partidos.php';
 require_once '../partidos/ServiceDatabasePartidos.php';
-
+session_start();
 $layout = new ElectLayout(true);
 $service = new ServiceDatabaseCandidato();
 $servicePuesto = new ServiceDatabasePuesto();
 $servicePartidos = new ServiceDatabasePartidos();
 $utilities = new Utilities();
-
+$isLogged = false;
+if(isset($_SESSION['user']) && $_SESSION['user']!=null)
+{
+  $isLogged = true;
 $puestos = $servicePuesto->GetList();
 $partidos = $servicePartidos->GetList();
 
@@ -30,10 +33,10 @@ if(isset($_GET['Id'])){
     $candidato = $service->GetById($idCandidato);
 }
 
-
+}
 ?>
 <?php $layout->printHeader2(); ?>
-
+<?php if($isLogged):?>
 <h1 class="page-title"><p align="center" style="margin-bottom:0px;font-size:31px">Sistema de voto automatizado </p>
 <span style="font-size: 20px;"><p align="center" style="margin-top:0px;"></p></span></h1>
 <div id="recommended-stories">
@@ -102,7 +105,10 @@ if(isset($_GET['Id'])){
 
 </div>
                                   
-
+<?php else:?>
+    <label class="text-center text-error mt-6" style="display:flex;justify-content:center">No puede acceder, no ha iniciado sesion.</label>
+ 
+<?php endif;?>
 
 
 <?php $layout->printFooter2()?>

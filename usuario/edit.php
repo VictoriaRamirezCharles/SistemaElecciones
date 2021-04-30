@@ -45,11 +45,11 @@ if(isset($_POST["Id"]) && isset($_POST["Nombre_Usuario"]) && isset($_POST["Passw
 }
 ?>
 <?php $layout->printHeader2(); ?>
-
+<?php if ($isLogged) : ?>
 <?php if ($usuario == null) : ?>
         <h2>No existe este usuario</h2>
     <?php else : ?>
-        <?php if ($isLogged) : ?>
+    
 <main role="main">
 <div class="row margin-arriba-3 " id="formulario">
     <div class="col-md-2"></div>
@@ -143,8 +143,9 @@ if(isset($_POST["Id"]) && isset($_POST["Nombre_Usuario"]) && isset($_POST["Passw
     </div>
 </div>
 </main>
-<?php else : ?>
-    <h2>Debe iniciar Sesion.</h2>
+
     <?php endif;?>
+    <?php else : ?>
+        <label class="text-center text-error mt-6" style="display:flex;justify-content:center">No puede acceder, no ha iniciado sesion.</label>
 <?php endif;?>
 <?php $layout->printFooter2()?>

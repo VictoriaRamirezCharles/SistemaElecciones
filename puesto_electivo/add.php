@@ -8,7 +8,7 @@ require_once '../FileHandler/FileHandlerBase.php';
 require_once '../FileHandler/JsonFileHandler.php';
 require_once '../database/EleccionesContext.php';
 require_once 'ServiceDatabasePuesto.php';
-
+session_start();
 $layout = new AdminLayout(true);
 $service = new ServiceDatabasePuesto();
 
@@ -27,10 +27,15 @@ if(isset($_POST["Nombre"]) && isset($_POST["Descripcion"]))
         exit();
     
 }  
+$isLogged = false;
+if(isset($_SESSION['adminUser']) && $_SESSION['adminUser']!=null)
+{
+  $isLogged = true;
 
+}
 ?>
 <?php $layout->printHeader2(); ?>
-
+<?php if($isLogged):?>
 <main role="main">
 <div class="row margin-arriba-3 " id="formulario">
     <div class="col-md-2"></div>
@@ -68,4 +73,7 @@ if(isset($_POST["Nombre"]) && isset($_POST["Descripcion"]))
     </div>
 </div>
 </main>
+<?php else:?>
+    <label class="text-center text-error mt-6" style="display:flex;justify-content:center">No puede acceder, no ha iniciado sesion.</label>
+<?php endif;?>
 <?php $layout->printFooter2()?>

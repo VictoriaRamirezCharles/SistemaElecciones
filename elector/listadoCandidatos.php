@@ -20,10 +20,14 @@ require_once '../candidatos/ServiceDatabaseCandidato.php';
 require_once '../elecciones/elecciones.php';
 require_once '../elecciones/ServiceDatabaseElecciones.php';
 require_once '../ciudadanos/ServiceDatabase.php';
-
+session_start();
 $layout = new ElectLayout(true);
 $service = new ServiceDatabaseCandidato();
 $serviceelecciones = new ServiceDatabaseElecciones();
+$isLogged = false;
+if(isset($_SESSION['user']) && $_SESSION['user']!=null)
+{
+    $isLogged = true;
 $idCandidato = 0;
 $candidato= null; 
 
@@ -47,12 +51,12 @@ if(isset($_GET['Id'])){
     $idCandidato = $_GET['Id'];
     $candidato = $service->GetById($idCandidato);
 }
-
+}
 
 ?>
 <?php $layout->printHeader2(); ?>
 
-
+<?php if($isLogged):?>
 
 <div class="container">
  
@@ -126,7 +130,10 @@ if(isset($_GET['Id'])){
     
 </div>
 
-
+<?php else:?>
+    <label class="text-center text-error mt-6" style="display:flex;justify-content:center">No puede acceder, no ha iniciado sesion.</label>
+ 
+<?php endif;?>
 
 
 

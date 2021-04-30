@@ -7,7 +7,7 @@ require_once '../FileHandler/JsonFileHandler.php';
 require_once '../helpers/utilities.php';
 require_once '../database/EleccionesContext.php';
 require_once 'ServiceDatabaseUsuario.php';
-
+session_start();
 $layout = new AdminLayout(true);
 $service = new ServiceDatabaseUsuario();
 
@@ -18,13 +18,16 @@ if(isset($_SESSION['adminUser']) && $_SESSION['adminUser']!=null)
 {
   $isLogged = true;
 
+ 
+
+
 }
 
 ?>
 
-<?php echo $layout->printHeader2() ?>
+<?php echo $layout->printHeader2();?>
 
-    <?php if(!$isLogged):?>
+    <?php if($isLogged):?>
     <div class="container-fluid py-4">
       <div class="row">
       <div class="text-right margin-arriba-3">
@@ -101,7 +104,7 @@ if(isset($_SESSION['adminUser']) && $_SESSION['adminUser']!=null)
      
     </div>
     <?php else: ?>
-    <label class="text-center text-error">No puede acceder, no ha iniciado sesion.</label>
+    <label class="text-center text-error mt-6" style="display:flex;justify-content:center">No puede acceder, no ha iniciado sesion.</label>
     <?php endif; ?>
     </main>
 <?php echo $layout->printFooter2() ?>

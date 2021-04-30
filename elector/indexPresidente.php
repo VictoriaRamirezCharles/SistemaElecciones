@@ -35,7 +35,11 @@ $partidos = $servicePartido->GetList();
 $serviceVotos = new ServiceDatabaseVotos();
 $candidato= null; 
 
-if(isset($_GET['Id'])){
+$isLogged = false;
+if(isset($_SESSION['user']) && $_SESSION['user']!=null)
+{
+  $isLogged = true;
+  if(isset($_GET['Id'])){
 
     $idCandidato = $_GET['Id'];
     $candidato = $service->GetById($idCandidato);
@@ -60,11 +64,11 @@ if(in_array('Presidente',$valid))
 {
   $ejercido =true;
 }
-
+}
 ?>
 
 <?php echo $layout->printHeader2();?>
-
+<?php if($isLogged):?>
 <main role="main">
 
 
@@ -137,6 +141,10 @@ if(in_array('Presidente',$valid))
 </div>
 
 </main>
+<?php else:?>
+    <label class="text-center text-error mt-6" style="display:flex;justify-content:center">No puede acceder, no ha iniciado sesion.</label>
+ 
+<?php endif;?>
 
 <?php echo $layout->printFooter2() ?>
 

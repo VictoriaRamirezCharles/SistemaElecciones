@@ -7,17 +7,25 @@ require_once '../FileHandler/JsonFileHandler.php';
 require_once '../helpers/utilities.php';
 require_once '../database/EleccionesContext.php';
 require_once 'ServiceDatabase.php';
-
+session_start();
 $layout = new AdminLayout(true);
 $service = new ServiceDatabase();
 
 $ciudadanos = $service->GetList();
 
+$isLogged = false;
+
+if(isset($_SESSION['adminUser']) && $_SESSION['adminUser']!=null)
+{
+  $isLogged = true;
+
+}
+
 ?>
 
 <?php echo $layout->printHeader2() ?>
 
-
+<?php if($isLogged):?>
     <div class="container-fluid py-4">
       <div class="row">
       <div class="text-right margin-arriba-3">
@@ -86,6 +94,10 @@ $ciudadanos = $service->GetList();
      
      
     </div>
+    <?php else:?>
+    <label class="text-center text-error mt-6" style="display:flex;justify-content:center">No puede acceder, no ha iniciado sesion.</label>
+ 
+<?php endif;?>
 <?php echo $layout->printFooter2() ?>
 
 <script src="../assets/js/site/index/index.js"></script>

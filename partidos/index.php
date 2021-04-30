@@ -9,7 +9,7 @@ require_once '../database/EleccionesContext.php';
 require_once 'ServiceDatabasePartidos.php';
 require_once '../elecciones/elecciones.php';
 require_once '../elecciones/ServiceDatabaseElecciones.php';
-
+session_start();
 $layout = new AdminLayout(true);
 $service = new ServiceDatabasePartidos();
 $partidos = $service->GetList();
@@ -27,11 +27,18 @@ foreach($elecciones as $elect)
         break;
     }
 }
+$isLogged = false;
+
+if(isset($_SESSION['adminUser']) && $_SESSION['adminUser']!=null)
+{
+  $isLogged = true;
+
+}
 
 ?>
 
 <?php echo $layout->printHeader2() ?>
-
+<?php if($isLogged):?>
 <main role="main">
 
 <section class="text-right">
@@ -103,7 +110,10 @@ foreach($elecciones as $elect)
 </div>
 
 </main>
-
+<?php else:?>
+    <label class="text-center text-error mt-6" style="display:flex;justify-content:center">No puede acceder, no ha iniciado sesion.</label>
+ 
+<?php endif;?>
 <?php echo $layout->printFooter2() ?>
 
 <script src="../assets/js/site/index/index.js"></script>

@@ -34,6 +34,10 @@ $puestos = $servicePuesto->GetList();
 $candidatos = $service->GetList();
 $partidos = $servicePartido->GetList();
 
+$isLogged = false;
+if(isset($_SESSION['user']) && $_SESSION['user']!=null)
+{
+  $isLogged = true;
 $state = 0;
 $idEleccion = 0;
 $valid = Array();
@@ -54,11 +58,11 @@ if(in_array('Regidor',$valid))
 {
   $ejercido =true;
 }
-
+}
 ?>
 
 <?php echo $layout->printHeader2();?>
-
+<?php if($isLogged):?>
 <main role="main">
 
 <br>
@@ -125,7 +129,10 @@ if(in_array('Regidor',$valid))
 </div>
 
 </main>
-
+<?php else:?>
+    <label class="text-center text-error mt-6" style="display:flex;justify-content:center">No puede acceder, no ha iniciado sesion.</label>
+ 
+<?php endif;?>
 <?php echo $layout->printFooter2() ?>
 
 <script src="../assets/js/site/index/index.js"></script>

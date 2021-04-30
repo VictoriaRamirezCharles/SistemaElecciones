@@ -133,7 +133,8 @@ if(isset($_POST["Nombre_Usuario"]) && isset($_POST["Password"]) && isset($_POST[
 </div>
 </main>
 <?php else:?>
-<label class="text-center text-error">No puede acceder, no ha iniciado sesion.</label>
+    <label class="text-center text-error mt-6" style="display:flex;justify-content:center">No puede acceder, no ha iniciado sesion.</label>
+ 
 <?php endif;?>
 
 

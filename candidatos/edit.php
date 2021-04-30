@@ -12,7 +12,7 @@ require_once '../puesto_electivo/puesto_electivo.php';
 require_once '../puesto_electivo/ServiceDatabasePuesto.php';
 require_once '../partidos/partidos.php';
 require_once '../partidos/ServiceDatabasePartidos.php';
-
+session_start();
 $layout = new AdminLayout(true);
 $service = new ServiceDatabaseCandidato();
 $servicePuesto = new ServiceDatabasePuesto();
@@ -30,6 +30,13 @@ if(isset($_GET['Id'])){
     $candidato = $service->GetById($idCandidato);
 }
 
+$isLogged = false;
+
+if(isset($_SESSION['adminUser']) && $_SESSION['adminUser']!=null)
+{
+  $isLogged = true;
+
+}
 if(isset($_POST["Nombre"]) && isset($_POST["Apellido"]) && isset($_POST["PartidoId"]) && isset($_POST["PuestoId"]))
 {
         $candidato = new Candidato();
@@ -47,6 +54,7 @@ if(isset($_POST["Nombre"]) && isset($_POST["Apellido"]) && isset($_POST["Partido
 ?>
 <?php $layout->printHeader2(); ?>
 
+<?php if($isLogged):?>
 <main role="main">
 <div class="row margin-arriba-3 " id="formulario">
     <div class="col-md-3"></div>
@@ -129,4 +137,8 @@ if(isset($_POST["Nombre"]) && isset($_POST["Apellido"]) && isset($_POST["Partido
     </div>
 </div>
 </main>
+<?php else:?>
+    <label class="text-center text-error mt-6" style="display:flex;justify-content:center">No puede acceder, no ha iniciado sesion.</label>
+ 
+<?php endif;?>
 <?php $layout->printFooter2()?>

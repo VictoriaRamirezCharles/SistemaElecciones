@@ -21,7 +21,7 @@ require_once '../votos/votos.php';
 require_once '../votos/ServiceDatabaseVotos.php';
 require_once '../ciudadanos/ServiceDatabase.php';
 require_once '../elecciones/ServiceDatabaseElecciones.php';
-
+session_start();
 
 $layout = new AdminLayout(true);
 $service = new ServiceDatabaseCandidato();
@@ -33,11 +33,16 @@ $IdEleccion=$_GET['Id'];
 $votos = $serviceVotos->GetResult($IdEleccion);
 
 }
+$isLogged = false;
+if(isset($_SESSION['adminUser']) && $_SESSION['adminUser']!=null)
+{
+  $isLogged = true;
 
+}
 ?>
 <?php $layout->printHeader2(); ?>
 
-
+<?php if($isLogged):?>
 
 <div class="container">
  
@@ -110,7 +115,10 @@ $votos = $serviceVotos->GetResult($IdEleccion);
     <?php endif;?>
     
 </div>
-
+<?php else:?>
+    <label class="text-center text-error mt-6" style="display:flex;justify-content:center">No puede acceder, no ha iniciado sesion.</label>
+ 
+<?php endif;?>
 
 
 

@@ -12,7 +12,13 @@ session_start();
 $layout = new AdminLayout(true);
 $service = new ServiceDatabaseElecciones();
 
-$eleccion= null; 
+
+$isLogged = false;
+
+if(isset($_SESSION['adminUser']) && $_SESSION['adminUser']!=null)
+{
+  $isLogged = true;
+  $eleccion= null; 
 $state= false; 
 $idEleccion = 0;
 if (isset($_GET["Id"])) {
@@ -58,8 +64,14 @@ if(isset($_POST["Nombre"]) && isset($_POST["Fecha"]))
     } 
 } 
 
+}
+else
+{
+
+}
 ?>
 <?php $layout->printHeader2(); ?>
+<?php if($isLogged):?>
 <?php if ($eleccion == null) : ?>
         <h2>No existe esta eleccion</h2>
     <?php else : ?>
@@ -105,5 +117,9 @@ if(isset($_POST["Nombre"]) && isset($_POST["Fecha"]))
     </div>
 </div>
 </main>
+<?php endif;?>
+<?php else:?>
+    <label class="text-center text-error mt-6" style="display:flex;justify-content:center">No puede acceder, no ha iniciado sesion.</label>
+ 
 <?php endif;?>
 <?php $layout->printFooter2() ?>

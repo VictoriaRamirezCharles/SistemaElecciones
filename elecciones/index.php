@@ -10,7 +10,7 @@ require_once 'ServiceDatabaseElecciones.php';
 require_once '../helpers/utilities.php';
 require_once '../candidatos/candidatos.php';
 require_once '../candidatos/ServiceDatabaseCandidato.php';
-
+session_start();
 
 $layout = new AdminLayout(true);
 $service = new ServiceDatabaseElecciones();
@@ -39,11 +39,18 @@ if($cantidad_candidatos>=2)
         }
     }
 }
+$isLogged = false;
+
+if(isset($_SESSION['adminUser']) && $_SESSION['adminUser']!=null)
+{
+  $isLogged = true;
+
+}
 
 ?>
 
 <?php echo $layout->printHeader2() ;?>
-
+<?php if($isLogged):?>
     <div class="container-fluid py-4">
       <div class="row">
       <div class="text-right margin-arriba-3">
@@ -129,7 +136,10 @@ if($cantidad_candidatos>=2)
      
      
     </div>
-
+    <?php else:?>
+    <label class="text-center text-error mt-6" style="display:flex;justify-content:center">No puede acceder, no ha iniciado sesion.</label>
+ 
+<?php endif;?>
 <?php echo $layout->printFooter2() ?>
 
 <script src="../assets/js/site/index/index.js"></script>
