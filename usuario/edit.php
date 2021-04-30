@@ -7,11 +7,19 @@ require_once '../FileHandler/IFileHandler.php';
 require_once '../FileHandler/FileHandlerBase.php';
 require_once '../FileHandler/JsonFileHandler.php';
 require_once '../database/EleccionesContext.php';
-require_once 'ServiceDatabase.php';
+require_once 'ServiceDatabaseUsuario.php';
 
+session_start();
 $layout = new AdminLayout(true);
-$service = new ServiceDatabase();
+$service = new ServiceDatabaseUsuario();
 
+$isLogged = false;
+
+if(isset($_SESSION['adminUser']) && $_SESSION['adminUser']!=null)
+{
+  $isLogged = true;
+
+}
 
 $usuario= null; 
 $pass= null; 
@@ -36,11 +44,12 @@ if(isset($_POST["Id"]) && isset($_POST["Nombre_Usuario"]) && isset($_POST["Passw
   
 }
 ?>
-<?php $layout->printHeader(); ?>
+<?php $layout->printHeader2(); ?>
 
 <?php if ($usuario == null) : ?>
-        <h2>No existe este heroe</h2>
+        <h2>No existe este usuario</h2>
     <?php else : ?>
+        <?php if ($isLogged) : ?>
 <main role="main">
 <div class="row margin-arriba-3 " id="formulario">
     <div class="col-md-2"></div>
@@ -134,5 +143,8 @@ if(isset($_POST["Id"]) && isset($_POST["Nombre_Usuario"]) && isset($_POST["Passw
     </div>
 </div>
 </main>
+<?php else : ?>
+    <h2>Debe iniciar Sesion.</h2>
+    <?php endif;?>
 <?php endif;?>
-<?php $layout->printFooter()?>
+<?php $layout->printFooter2()?>

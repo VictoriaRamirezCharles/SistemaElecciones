@@ -7,14 +7,21 @@ require_once '../FileHandler/IFileHandler.php';
 require_once '../FileHandler/FileHandlerBase.php';
 require_once '../FileHandler/JsonFileHandler.php';
 require_once '../database/EleccionesContext.php';
-require_once 'ServiceDatabase.php';
-
+require_once 'ServiceDatabaseUsuario.php';
+session_start();
 $layout = new AdminLayout(true);
-$service = new ServiceDatabase();
+$service = new ServiceDatabaseUsuario();
 
 $usuario= null; 
 $pass= null; 
 $cpass= null; 
+$isLogged = false;
+
+if(isset($_SESSION['adminUser']) && $_SESSION['adminUser']!=null)
+{
+  $isLogged = true;
+
+}
 if(isset($_POST["Nombre_Usuario"]) && isset($_POST["Password"]) && isset($_POST["Nombre"]) && isset($_POST["Apellido"]) && isset($_POST["Email"]))
 {
     $pass =$_POST["Password"];
@@ -37,8 +44,8 @@ if(isset($_POST["Nombre_Usuario"]) && isset($_POST["Password"]) && isset($_POST[
   
 }
 ?>
-<?php $layout->printHeader(); ?>
-
+<?php $layout->printHeader2(); ?>
+<?php if($isLogged):?>
 <main role="main">
 <div class="row margin-arriba-3 " id="formulario">
     <div class="col-md-2"></div>
@@ -125,4 +132,9 @@ if(isset($_POST["Nombre_Usuario"]) && isset($_POST["Password"]) && isset($_POST[
     </div>
 </div>
 </main>
-<?php $layout->printFooter()?>
+<?php else:?>
+<label class="text-center text-error">No puede acceder, no ha iniciado sesion.</label>
+<?php endif;?>
+
+
+<?php $layout->printFooter2()?>

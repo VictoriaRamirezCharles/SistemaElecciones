@@ -1,6 +1,6 @@
 <?php
 
- class ServiceDatabase{   
+ class ServiceDatabaseElecciones{   
 
     private $context;
     private $directory;
@@ -25,7 +25,15 @@
     public function Edit($item){      
 
         $stmt = $this->context->db->prepare("update elecciones set Nombre = ?,Fecha = ?, Estado = ? where Id = ?");
-        $stmt->bind_param("sdii", $item->Nombre, $item->Fecha,$Estado,$item->Id);
+        $stmt->bind_param("sdii", $item->Nombre, $item->Fecha,$item->Estado,$item->Id);
+        $stmt->execute();
+        $stmt->close();           
+    }
+
+    public function finalizarEleccion($id,$status){      
+
+        $stmt = $this->context->db->prepare("update elecciones set  Estado = ? where Id = ?");
+        $stmt->bind_param("ii", $status,$id);
         $stmt->execute();
         $stmt->close();           
     }

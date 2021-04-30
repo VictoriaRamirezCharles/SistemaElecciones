@@ -7,14 +7,14 @@ require_once '../FileHandler/IFileHandler.php';
 require_once '../FileHandler/FileHandlerBase.php';
 require_once '../FileHandler/JsonFileHandler.php';
 require_once '../database/EleccionesContext.php';
-require_once 'ServiceDatabase.php';
+require_once 'ServiceDatabaseCandidato.php';
 require_once '../puesto_electivo/puesto_electivo.php';
 require_once '../puesto_electivo/ServiceDatabasePuesto.php';
 require_once '../partidos/partidos.php';
 require_once '../partidos/ServiceDatabasePartidos.php';
 
 $layout = new AdminLayout(true);
-$service = new ServiceDatabase();
+$service = new ServiceDatabaseCandidato();
 $servicePuesto = new ServiceDatabasePuesto();
 $servicePartidos = new ServiceDatabasePartidos();
 $utilities = new Utilities();
@@ -45,7 +45,7 @@ if(isset($_POST["Nombre"]) && isset($_POST["Apellido"]) && isset($_POST["Partido
   
 }
 ?>
-<?php $layout->printHeader(); ?>
+<?php $layout->printHeader2(); ?>
 
 <main role="main">
 <div class="row margin-arriba-3 " id="formulario">
@@ -113,7 +113,7 @@ if(isset($_POST["Nombre"]) && isset($_POST["Apellido"]) && isset($_POST["Partido
                     <div class="form-group">
                     <label class="form-check-label" for="flexCheckChecked">Activo</label>
                       
-                        <?php if($puesto->Estado==1): ?>
+                    <?php if($candidato->Estado==1): ?>
                         <input class="form-check-input" type="checkbox" name="Estado" value="activo" id="flexCheckChecked" checked>
                         <?php else: ?>
                             <input class="form-check-input" type="checkbox" name="Estado" value="activo" id="flexCheckChecked">
@@ -129,4 +129,4 @@ if(isset($_POST["Nombre"]) && isset($_POST["Apellido"]) && isset($_POST["Partido
     </div>
 </div>
 </main>
-<?php $layout->printFooter()?>
+<?php $layout->printFooter2()?>

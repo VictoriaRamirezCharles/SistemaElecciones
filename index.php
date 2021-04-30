@@ -6,14 +6,10 @@ require_once 'FileHandler/JsonFileHandler.php';
 require_once 'helpers/utilities.php';
 require_once './layout/layout.php';
 require_once 'database/EleccionesContext.php';
-require_once 'usuario/ServiceDatabase.php';
+require_once 'usuario/ServiceDatabaseUsuario.php';
 
 $layout = new Layout(false);
-$service = new ServiceDatabase(true);
-
-// $prueba = $service->Login('vicky','123');
-// var_dump($prueba)
-
+$service = new ServiceDatabaseUsuario(true);
 ?>
 
 <?php $layout->printHeader();?>

@@ -6,11 +6,13 @@ require_once '../FileHandler/IFileHandler.php';
 require_once '../FileHandler/FileHandlerBase.php';
 require_once '../FileHandler/JsonFileHandler.php';
 require_once '../database/EleccionesContext.php';
-require_once 'ServiceDatabase.php';
+require_once 'ServiceDatabaseUsuario.php';
 
+session_start();
 $layout = new Layout(true);
-$service = new ServiceDatabase();
+$service = new ServiceDatabaseUsuario();
 $user = "";
+
 if(isset($_POST["Nombre_Usuario"]) && isset($_POST["Password"]))
 {
     $user = $service->Login($_POST["Nombre_Usuario"],$_POST["Password"]);
@@ -20,6 +22,7 @@ if(isset($_POST["Nombre_Usuario"]) && isset($_POST["Password"]))
         {
             if($user->Rol === 1)
             {
+              $_SESSION['adminUser'] = $user;
                 header("Location: ../administrador.php");
                 exit();
             }

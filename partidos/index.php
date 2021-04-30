@@ -7,15 +7,30 @@ require_once '../FileHandler/JsonFileHandler.php';
 require_once '../helpers/utilities.php';
 require_once '../database/EleccionesContext.php';
 require_once 'ServiceDatabasePartidos.php';
-
+require_once '../elecciones/elecciones.php';
+require_once '../elecciones/ServiceDatabaseElecciones.php';
 
 $layout = new AdminLayout(true);
 $service = new ServiceDatabasePartidos();
 $partidos = $service->GetList();
+$serviceelecciones = new ServiceDatabaseElecciones();
+
+
+$elecciones = $serviceelecciones->GetList();
+
+$state = 0;
+foreach($elecciones as $elect)
+{
+    if($elect->Estado==1)
+    {
+       $state++;
+        break;
+    }
+}
 
 ?>
 
-<?php echo $layout->printHeader() ?>
+<?php echo $layout->printHeader2() ?>
 
 <main role="main">
 
@@ -23,7 +38,9 @@ $partidos = $service->GetList();
   <div class="container">
  
     <p>
+    <?php if($state==0):?>
       <a href="add.php" class="btn btn-success my-2"></i> Nuevo Partido</a>
+      <?php endif; ?>
     </p>
   </div>
 </section>
@@ -34,9 +51,9 @@ $partidos = $service->GetList();
   <div class="container">
  
       <?php if(empty($partidos)):?>
-
+      
         <h3 class="text-center">No hay Partidos registrados</h3>
-
+       
       <?php else: ?>
 
         <div class="row">
@@ -67,9 +84,11 @@ $partidos = $service->GetList();
                  <h6 class="card-text"> <h6>Estado: <span class="statusInactivo">Inactivo</span></h6>
                  <?php endif; ?>
                   <div class="card-body">
+                  <?php if($state==0):?>
                     <a href="edit.php?Id=<?php echo $partido->Id?>" class="btn btn-primary btn-sm"></i> Editar</a>
 
                     <a class="btn btn-danger btn-sm text-light btn-delete" data-name="partido" data-id="<?= $partido->Id ?>"></i> Eliminar</a>
+                    <?php endif; ?>
                   </div>
 
                 </div>
@@ -85,6 +104,6 @@ $partidos = $service->GetList();
 
 </main>
 
-<?php echo $layout->printFooter() ?>
+<?php echo $layout->printFooter2() ?>
 
 <script src="../assets/js/site/index/index.js"></script>

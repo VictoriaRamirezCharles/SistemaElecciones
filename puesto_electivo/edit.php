@@ -33,7 +33,7 @@ if(isset($_POST["Nombre"]) && isset($_POST["Descripcion"]))
 }  
 
 ?>
-<?php $layout->printHeader(); ?>
+<?php $layout->printHeader2(); ?>
 <?php if ($puesto == null) : ?>
         <h2>No existe este heroe</h2>
     <?php else : ?>
@@ -79,4 +79,4 @@ if(isset($_POST["Nombre"]) && isset($_POST["Descripcion"]))
 </div>
 </main>
 <?php endif;?>
-<?php $layout->printFooter()?>
+<?php $layout->printFooter2()?>

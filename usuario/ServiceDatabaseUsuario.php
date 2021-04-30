@@ -1,6 +1,6 @@
 <?php
 
- class ServiceDatabase{   
+ class ServiceDatabaseUsuario{   
 
     private $context;
     private $directory;
@@ -101,6 +101,29 @@
         }
       
         return $usuario;
+    }
+
+    
+    public function LoginElector($documento){
+      
+        $ciudadano = null;
+
+        $stmt = $this->context->db->prepare("select * from ciudadanos where Documento_Identidad = ?");
+        $stmt->bind_param("s", $documento);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 0) {
+            return null;
+        } else {
+
+          $row = $result->fetch_object();
+          $ciudadano = new Ciudadano($row->Id,$row->Documento_Identidad,$row->Nombre,$row->Apellido,$row->Email,$row->Estado);
+         
+        }
+      
+        return $ciudadano;
     }
    
 }

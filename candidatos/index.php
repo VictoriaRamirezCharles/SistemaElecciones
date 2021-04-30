@@ -6,19 +6,34 @@ require_once '../FileHandler/FileHandlerBase.php';
 require_once '../FileHandler/JsonFileHandler.php';
 require_once '../helpers/utilities.php';
 require_once '../database/EleccionesContext.php';
-require_once 'ServiceDatabase.php';
+require_once 'ServiceDatabaseCandidato.php';
 require_once '../puesto_electivo/puesto_electivo.php';
 require_once '../puesto_electivo/ServiceDatabasePuesto.php';
+require_once '../elecciones/elecciones.php';
+require_once '../elecciones/ServiceDatabaseElecciones.php';
 
 $layout = new AdminLayout(true);
-$service = new ServiceDatabase();
+$service = new ServiceDatabaseCandidato();
 $servicePuesto = new ServiceDatabasePuesto();
+$serviceelecciones = new ServiceDatabaseElecciones();
 $puestos = $servicePuesto->GetList();
 $candidatos = $service->GetList();
 
+$elecciones = $serviceelecciones->GetList();
+
+$state = 0;
+foreach($elecciones as $elect)
+{
+    if($elect->Estado==1)
+    {
+       $state++;
+        break;
+    }
+}
+
 ?>
 
-<?php echo $layout->printHeader() ?>
+<?php echo $layout->printHeader2();?>
 
 <main role="main">
 
@@ -26,7 +41,9 @@ $candidatos = $service->GetList();
   <div class="container">
  
     <p>
+    <?php if($state==0):?>
       <a href="add.php" class="btn btn-success my-2"></i> Nuevo Candidato</a>
+      <?php endif; ?>
     </p>
   </div>
 </section>
@@ -71,9 +88,10 @@ $candidatos = $service->GetList();
                  <h6 class="card-text"> <h6>Estado: <span class="statusInactivo">Inactivo</span></h6>
                  <?php endif; ?>
                   <div class="card-body">
+                  <?php if($state==0):?>
                     <a href="edit.php?Id=<?php echo $candidato->Id?>" class="btn btn-primary btn-sm"></i> Editar</a>
-
                     <a class="btn btn-danger btn-sm text-light btn-delete" data-name="candidato" data-id="<?= $candidato->Id ?>"></i> Eliminar</a>
+                    <?php endif; ?>
                   </div>
 
                 </div>
@@ -89,6 +107,6 @@ $candidatos = $service->GetList();
 
 </main>
 
-<?php echo $layout->printFooter() ?>
+<?php echo $layout->printFooter2() ?>
 
 <script src="../assets/js/site/index/index.js"></script>

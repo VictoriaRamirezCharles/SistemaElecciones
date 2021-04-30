@@ -34,7 +34,7 @@ if(isset($_POST["Documento_Identidad"]) && isset($_POST["Nombre"]) && isset($_PO
   
 }
 ?>
-<?php $layout->printHeader(); ?>
+<?php $layout->printHeader2(); ?>
 
 <main role="main">
 <div class="row margin-arriba-3 " id="formulario">
@@ -98,4 +98,4 @@ if(isset($_POST["Documento_Identidad"]) && isset($_POST["Nombre"]) && isset($_PO
     </div>
 </div>
 </main>
-<?php $layout->printFooter()?>
+<?php $layout->printFooter2()?>

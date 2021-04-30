@@ -6,18 +6,32 @@ require_once '../FileHandler/IFileHandler.php';
 require_once '../FileHandler/FileHandlerBase.php';
 require_once '../FileHandler/JsonFileHandler.php';
 require_once '../database/EleccionesContext.php';
-require_once 'ServiceDatabase.php';
+require_once 'ServiceDatabaseUsuario.php';
 
-
-$service = new ServiceDatabase();
+session_start();
+$service = new ServiceDatabaseUsuario();
 
 $containId = isset($_GET["id"]);
+$isLogged = false;
 
-if($containId){
+if(isset($_SESSION['adminUser']) && $_SESSION['adminUser']!=null)
+{
+  $isLogged = true;
 
-    $service->Delete($_GET["id"]);
+}
+if($isLogged)
+{
+    if($containId){
+
+        $service->Delete($_GET["id"]);
+    }
+    
+    header("Location: index.php");
+    exit();
+}
+else
+{
+
 }
 
-header("Location: index.php");
-exit();
 ?>

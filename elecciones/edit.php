@@ -7,33 +7,59 @@ require_once '../FileHandler/IFileHandler.php';
 require_once '../FileHandler/FileHandlerBase.php';
 require_once '../FileHandler/JsonFileHandler.php';
 require_once '../database/EleccionesContext.php';
-require_once 'ServiceDatabase.php';
-
+require_once 'ServiceDatabaseElecciones.php';
+session_start();
 $layout = new AdminLayout(true);
-$service = new ServiceDatabase();
+$service = new ServiceDatabaseElecciones();
 
 $eleccion= null; 
-
+$state= false; 
+$idEleccion = 0;
 if (isset($_GET["Id"])) {
 
     $eleccion = $service->GetById($_GET["Id"]);
+    $_SESSION["IdEleccion"] = $eleccion->Id;
+  
 }
+$idEleccion = $_SESSION["IdEleccion"];
 if(isset($_POST["Nombre"]) && isset($_POST["Fecha"]))
 {
- 
-   
-        $status = ($_POST["Estado"] == "activo") ? true : false;
+    $elecciones= $service->GetList();
+    $status = ($_POST["Estado"] == "activo") ? true : false;  
+    foreach($elecciones as $elect)
+    {
+        if($elect->Estado==1)
+        {
+            $state=true;
+            break;
+        }
+    }
 
+    if($state==false)
+    {
         $eleccion = new Elecciones($_POST["Id"],$_POST["Nombre"],$_POST["Fecha"],$status);
         $service->Edit($eleccion);
     
         header("Location: index.php");
         exit();
+    }
+      elseif($state && $status)
+        {
+            header("Location: edit.php?Id=$idEleccion");
+            exit();
+        }
+     elseif($status==false && $state==true)
+    {
+        $eleccion = new Elecciones($_POST["Id"],$_POST["Nombre"],$_POST["Fecha"],$status);
+        $service->Edit($eleccion);
     
-}  
+        header("Location: index.php");
+        exit();
+    } 
+} 
 
 ?>
-<?php $layout->printHeader(); ?>
+<?php $layout->printHeader2(); ?>
 <?php if ($eleccion == null) : ?>
         <h2>No existe esta eleccion</h2>
     <?php else : ?>
@@ -68,6 +94,7 @@ if(isset($_POST["Nombre"]) && isset($_POST["Fecha"]))
                             <?php endif;?>
                        
                     </div>
+              
                
                     <div class="text-right">
                         <button class="btn btn-success" type="submit">Guardar</button>
@@ -79,4 +106,4 @@ if(isset($_POST["Nombre"]) && isset($_POST["Fecha"]))
 </div>
 </main>
 <?php endif;?>
-<?php $layout->printFooter()?>
+<?php $layout->printFooter2() ?>

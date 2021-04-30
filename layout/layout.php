@@ -34,7 +34,7 @@ class Layout
           
           <div class="dropdown-menu" aria-labelledby="dropdown01">
           <a class="dropdown-item" href="{$this->directory}usuario/login.php">Administrador</a>
-          <a class="dropdown-item" href="#">Elector</a>
+          <a class="dropdown-item" href="{$this->directory}usuario/loginElector.php">Elector</a>
         </div>
         </nav>
       
@@ -51,8 +51,9 @@ class Layout
  
       </footer>
       <script src="{$this->directory}assets/js/jquery/jquery-3.5.1.min.js"></script>
-      // <script src="{$this->directory}assets/js/vendor/popper.min.js"></script>
+       <script src="{$this->directory}assets/js/vendor/popper.min.js"></script>
       <script src="{$this->directory}assets/js/bootstrap.min.js"></script>
+      <script src="{$this->directory}assets/js/sweetalert.min.js"></script>
       
       </body>
       </html>

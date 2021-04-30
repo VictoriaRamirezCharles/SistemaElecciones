@@ -7,14 +7,14 @@ require_once '../FileHandler/IFileHandler.php';
 require_once '../FileHandler/FileHandlerBase.php';
 require_once '../FileHandler/JsonFileHandler.php';
 require_once '../database/EleccionesContext.php';
-require_once 'ServiceDatabase.php';
+require_once 'ServiceDatabaseCandidato.php';
 require_once '../puesto_electivo/puesto_electivo.php';
 require_once '../puesto_electivo/ServiceDatabasePuesto.php';
 require_once '../partidos/partidos.php';
 require_once '../partidos/ServiceDatabasePartidos.php';
 
 $layout = new AdminLayout(true);
-$service = new ServiceDatabase();
+$service = new ServiceDatabaseCandidato();
 $servicePuesto = new ServiceDatabasePuesto();
 $servicePartidos = new ServiceDatabasePartidos();
 $utilities = new Utilities();
@@ -22,24 +22,36 @@ $utilities = new Utilities();
 $puestos = $servicePuesto->GetList();
 $partidos = $servicePartidos->GetList();
 
-$candidato= null; 
 
+$candidato= null; 
+$puesto = null;
+$partido =null;
 if(isset($_POST["Nombre"]) && isset($_POST["Apellido"]) && isset($_POST["PartidoId"]) && isset($_POST["PuestoId"]))
 {
-        $candidato = new Candidato();
+    $puesto = $servicePuesto->GetById($_POST["PuestoId"]);
+    $partido = $servicePartidos->GetById($_POST["PartidoId"]);
+       if($puesto!=null || $puestos!=null){
+        if($puesto->Estado==1)
+        {
+            if($partido->Estado==1){
+            $candidato = new Candidato();
 
-        $status = ($_POST["Estado"] == "activo") ? true : false;
-
-        $candidato-> initializeData(0,$_POST["Nombre"],$_POST["Apellido"],$_POST["PartidoId"],$_POST["PuestoId"],$status);
-        $service->Add($candidato);
+            $status = ($_POST["Estado"] == "activo") ? true : false;
     
-        header("Location: index.php");
-        exit();
+            $candidato-> initializeData(0,$_POST["Nombre"],$_POST["Apellido"],$_POST["PartidoId"],$_POST["PuestoId"],$status);
+            $service->Add($candidato);
+        
+            header("Location: index.php");
+            exit();
+        }
+        }
+    }
+      
     
   
 }
 ?>
-<?php $layout->printHeader(); ?>
+<?php $layout->printHeader2(); ?>
 
 <main role="main">
 <div class="row margin-arriba-3 " id="formulario">
@@ -69,6 +81,11 @@ if(isset($_POST["Nombre"]) && isset($_POST["Apellido"]) && isset($_POST["Partido
                                 <option value="<?php echo $partido->Id; ?>"> <?= $partido->Nombre ?> </option>
                             <?php endforeach;?>
                         </select>
+                        <?php if($partido!=null):?>
+                        <?php if($partido->Estado==0):?>
+                            <label class="text-center text-error">Este partido esta inactivo</label>
+                            <?php endif; ?>
+                            <?php endif; ?>
                     </div>
 
                     <div class="form-group">
@@ -79,6 +96,12 @@ if(isset($_POST["Nombre"]) && isset($_POST["Apellido"]) && isset($_POST["Partido
                                 <option value="<?php echo $puesto->Id; ?>"> <?= $puesto->Nombre ?> </option>
                             <?php endforeach;?>
                         </select>
+                        <?php if($puesto!=null):?>
+                        <?php if($puesto->Estado==0):?>
+                            <label class="text-center text-error">Este puesto esta inactivo</label>
+                            <?php endif; ?>
+                            <?php endif; ?>
+
                     </div>
 
                     <div class="form-group">
@@ -94,10 +117,19 @@ if(isset($_POST["Nombre"]) && isset($_POST["Apellido"]) && isset($_POST["Partido
                     <div class="text-right">
                         <button class="btn btn-success" type="submit">Guardar</button>
                     </div>
+                    <?php if($puestos==null):?>
+                   
+                     <label class="text-center text-error">Debe tener al menos un puesto registrado para continuar.</label>
+                    <?php endif; ?>
+                    <?php if($partidos==null):?>
+                   
+                   <label class="text-center text-error">Debe tener al menos un partido registrado para continuar.</label>
+                  <?php endif; ?>
+                       
                 </form>                              
             </div>
         </div>
     </div>
 </div>
 </main>
-<?php $layout->printFooter()?>
+<?php $layout->printFooter2()?>
