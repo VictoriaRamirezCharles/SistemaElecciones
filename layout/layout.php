@@ -18,7 +18,7 @@ class Layout
       <html lang="en"><head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">    
-          <title>Gestion Transacciones</title>
+          <title>Sistema de Elecciones</title>
           
       <link rel="stylesheet" href="{$this->directory}assets/css/bootstrap.min.css" type="text/css">
       <link rel="stylesheet" href="{$this->directory}assets/css/style.css"  type="text/css">

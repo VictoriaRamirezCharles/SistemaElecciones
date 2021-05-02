@@ -99,7 +99,7 @@ if(isset($_SESSION['adminUser']) && $_SESSION['adminUser']!=null)
                                                 <td style="border-bottom:#ccc 1px solid;"><?php echo $voto->Puesto;?></td>
                                                 <td style="border-bottom:#ccc 1px solid;"><?php echo $voto->Cantidad;?></td>
                                                 <?php $ct = $serviceVotos->totalCandidatoVoto($voto->IdEleccion,$voto->IdCandidato)?>
-                                                <td style="border-bottom:#ccc 1px solid;"><?php echo (($ct->Cantidad*$totalVotos->Cantidad)/100);?>%</td>
+                                                <td style="border-bottom:#ccc 1px solid;"><?php echo (100/($ct->Cantidad*$totalVotos->Cantidad));?>%</td>
                                               
                                             </tr>                                        
                                         </tbody>
